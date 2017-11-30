@@ -1,4 +1,5 @@
 Things to add to project:
+  -Broadcast to all when a user has left
   -Add commands (so messages that begin with '/' are treated differently)
   -Alternate way to disconnect other than exiting (say like typing a command "/disconnect" in the client)
   -Timestamps with each message [COMPLETE]
