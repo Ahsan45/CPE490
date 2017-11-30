@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
+import java.time.LocalTime;
 
 /**
  * A multithreaded chat room server.  When a client connects the
@@ -41,11 +42,11 @@ public class ChatServer {
      * set is kept so we can easily broadcast messages.
      */
     private static HashSet<PrintWriter> writers = new HashSet<PrintWriter>();
-
+    
     /**
      * The appplication main method, which just listens on a port and
      * spawns handler threads.
-     */
+     */    
     public static void main(String[] args) throws Exception {
         System.out.println("The chat server is running.");
         ServerSocket listener = new ServerSocket(PORT);
@@ -105,7 +106,7 @@ public class ChatServer {
                     synchronized (names) {
                         if (!names.contains(name)) {
                             names.add(name);
-                            System.out.println(name + " has joined.");
+                            System.out.println(name + " has joined");
                             break;
                         }
                     }
@@ -116,6 +117,9 @@ public class ChatServer {
                 // this client can receive broadcast messages.
                 out.println("NAMEACCEPTED");
                 writers.add(out);
+                for (PrintWriter writer : writers) {
+                    writer.println("MESSAGE " + name + " has joined");
+                }
 
                 // Accept messages from this client and broadcast them.
                 // Ignore other clients that cannot be broadcasted to.
@@ -124,19 +128,25 @@ public class ChatServer {
                     if (input == null) {
                         return;
                     }
-                    for (PrintWriter writer : writers) {
-                        writer.println("MESSAGE " + name + ": " + input);
-                        System.out.println("MESSAGE " + name + ": " + input);
+                    if (input.charAt(0) == '/') {
+                    	
+                    }
+                    else {
+                    	for (PrintWriter writer : writers) {
+                            writer.println("MESSAGE " + "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " " + name + ": " + input);
+                        }
+                        System.out.println("[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " " + name + ": " + input);
                     }
                 }
             } catch (IOException e) {
                 System.out.println(e);
             } 
+            
             finally {
                 // This client is going down!  Remove its name and its print
                 // writer from the sets, and close its socket.
                 if (name != null) {
-                	System.out.println(name + " has left.");
+                	System.out.println(name + " has left");
                     names.remove(name);
                 }
                 if (out != null) {
