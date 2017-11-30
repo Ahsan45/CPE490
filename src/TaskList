@@ -1,0 +1,5 @@
+Things to add to project:
+  -Alternate way to disconnect other than exiting (say like typing a command "/disconnect" in the client)
+  -Timestamps with each message
+  -Whisper to specific user functionality
+  -User list (command "/users")
