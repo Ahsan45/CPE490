@@ -129,7 +129,9 @@ public class ChatServer {
                         return;
                     }
                     if (input.charAt(0) == '/') {
-                    	
+                    	for (PrintWriter writer : writers) {
+                            writer.println("COMMAND" + input);
+                        }
                     }
                     else {
                     	for (PrintWriter writer : writers) {
