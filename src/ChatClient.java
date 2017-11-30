@@ -86,6 +86,9 @@ public class ChatClient {
             } else if (line.startsWith("MESSAGE")) {
                 messageArea.append(line.substring(8) + "\n");
             }
+            else if (line.startsWith("COMMAND /disconnect")) {
+            	socket.close();
+            }
             else {
             	break;
             }
