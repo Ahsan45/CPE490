@@ -128,16 +128,18 @@ public class ChatServer {
                     if (input == null) {
                         return;
                     }
-                    if (input.charAt(0) == '/') {
-                    	for (PrintWriter writer : writers) {
-                            writer.println("COMMAND" + input);
-                        }
-                    }
-                    else {
-                    	for (PrintWriter writer : writers) {
-                            writer.println("MESSAGE " + "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " " + name + ": " + input);
-                        }
-                        System.out.println("[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " " + name + ": " + input);
+                    if(input.length() != 0) {
+	                    if (input.charAt(0) == '/') {
+	                    	for (PrintWriter writer : writers) {
+	                            writer.println("COMMAND " + input);
+	                        }
+	                    }
+	                    else {
+	                    	for (PrintWriter writer : writers) {
+	                            writer.println("MESSAGE " + "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " " + name + ": " + input);
+	                        }
+	                        System.out.println("[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " " + name + ": " + input);
+	                    }
                     }
                 }
             } catch (IOException e) {
