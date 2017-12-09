@@ -20,14 +20,7 @@ public class ChatClient {
     JTextPane tPane = new JTextPane();
     //JTextArea messageArea = new JTextArea(50, 100);
 
-    /**
-     * Constructs the client by laying out the GUI and registering a
-     * listener with the textfield so that pressing Return in the
-     * listener sends the textfield contents to the server.  Note
-     * however that the textfield is initially NOT editable, and
-     * only becomes editable AFTER the client receives the NAMEACCEPTED
-     * message from the server.
-     */
+
     public ChatClient() {
 
         // Layout GUI
@@ -53,20 +46,17 @@ public class ChatClient {
         });
     }
 
-    /**
-     * Prompt for and return the address of the server.
-     */
+    //Prompt for and return the address of the server.
     private String getServerAddress() {
         return JOptionPane.showInputDialog(
             frame,
             "Enter IP Address of the Server:",
-            "Welcome to the Chatter",
+            "CPE 490 IRC Project",
             JOptionPane.QUESTION_MESSAGE);
     }
 
-    /**
-     * Prompt for and return the desired screen name.
-     */
+
+    //Prompt for and return the desired screen name.
     private String getName() {
         name = JOptionPane.showInputDialog(
             frame,
@@ -76,9 +66,7 @@ public class ChatClient {
         return name;
     }
 
-    /**
-     * Connects to the server then enters the processing loop.
-     */
+    //Connects to the server then enters the processing loop.
     private void run() throws IOException {
 
         // Make connection and initialize streams
@@ -123,9 +111,7 @@ public class ChatClient {
         tp.replaceSelection(msg);
     }
 
-    /**
-     * Runs the client as an application with a closeable frame.
-     */
+    //Runs the client as an application with a closeable frame.
     public static void main(String[] args) throws Exception {
         ChatClient client = new ChatClient();
         client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
