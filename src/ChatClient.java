@@ -1,15 +1,24 @@
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.*;
 import java.io.*;
 import java.net.Socket;
 import javax.swing.*;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 
 public class ChatClient {
 
+	String name;
     BufferedReader in;
     PrintWriter out;
     JFrame frame = new JFrame("IRC Chat Project");
     JTextField textField = new JTextField(100);
-    JTextArea messageArea = new JTextArea(50, 100);
+    JPanel topPanel = new JPanel();
+    JTextPane tPane = new JTextPane();
+    //JTextArea messageArea = new JTextArea(50, 100);
 
     /**
      * Constructs the client by laying out the GUI and registering a
@@ -23,9 +32,11 @@ public class ChatClient {
 
         // Layout GUI
         textField.setEditable(false);
-        messageArea.setEditable(false);
+        frame.setPreferredSize(new Dimension(1000, 800));
+        topPanel.add(tPane);
+        //messageArea.setEditable(false);
         frame.getContentPane().add(textField, "North");
-        frame.getContentPane().add(new JScrollPane(messageArea), "Center");
+        frame.getContentPane().add(new JScrollPane(tPane), "Center");
         frame.pack();
 
         // Add Listeners
@@ -57,11 +68,12 @@ public class ChatClient {
      * Prompt for and return the desired screen name.
      */
     private String getName() {
-        return JOptionPane.showInputDialog(
+        name = JOptionPane.showInputDialog(
             frame,
             "Choose a screen name:",
             "Screen name selection",
             JOptionPane.PLAIN_MESSAGE);
+        return name;
     }
 
     /**
@@ -84,16 +96,31 @@ public class ChatClient {
             } else if (line.startsWith("NAMEACCEPTED")) {
                 textField.setEditable(true);
             } else if (line.startsWith("MESSAGE")) {
-                messageArea.append(line.substring(8) + "\n");
+            	appendToPane(tPane, line.substring(8) + "\n", Color.BLACK);
             }
             else if (line.startsWith("COMMAND /disconnect")) {
             	socket.close();
             }
+            else if (line.startsWith("COMMAND /whisper " + name)) {
+            	appendToPane(tPane, line.substring(18+name.length()) + "\n", Color.RED);
+            }
             else {
-            	break;
+            	//break;
             }
         }
-        socket.close();
+        //socket.close();
+    }
+    private void appendToPane(JTextPane tp, String msg, Color c) {
+        StyleContext sc = StyleContext.getDefaultStyleContext();
+        AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c);
+
+        aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Lucida Console");
+        aset = sc.addAttribute(aset, StyleConstants.Alignment, StyleConstants.ALIGN_LEFT);
+
+        int len = tp.getDocument().getLength();
+        tp.setCaretPosition(len);
+        tp.setCharacterAttributes(aset, false);
+        tp.replaceSelection(msg);
     }
 
     /**
