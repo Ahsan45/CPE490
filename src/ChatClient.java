@@ -3,6 +3,8 @@ import java.awt.Dimension;
 import java.awt.event.*;
 import java.io.*;
 import java.net.Socket;
+import java.time.LocalTime;
+
 import javax.swing.*;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.SimpleAttributeSet;
@@ -90,7 +92,10 @@ public class ChatClient {
             	socket.close();
             }
             else if (line.startsWith("COMMAND /whisper " + name)) {
-            	appendToPane(tPane, line.substring(18+name.length()) + "\n", Color.RED);
+            	int endOfString = line.lastIndexOf("from");
+            	String lineMsg = line.substring(0, endOfString);
+            	String sender = line.substring(endOfString);
+            	appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " " + sender.substring(5) + " whispers to you: " + lineMsg.substring(18+name.length()) + "\n", Color.RED);
             }
             else {
             	//break;
