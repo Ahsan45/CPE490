@@ -83,8 +83,9 @@ public class ChatServer {
                     if(input.length() != 0) {
 	                    if (input.charAt(0) == '/') {
 	                    	for (PrintWriter writer : writers) {
-	                            writer.println("COMMAND " + input);
+	                            writer.println("COMMAND " + input + " from " + name);
 	                        }
+	                    	System.out.println("COMMAND " + name + " " + input);
 	                    }
 	                    else {
 	                    	for (PrintWriter writer : writers) {
