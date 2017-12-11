@@ -58,7 +58,7 @@ public class ChatServer {
                     synchronized (names) {
                         if (!names.contains(name)) {
                             names.add(name);
-                            System.out.println(name + " has joined");
+                            System.out.println(name + " has joined. Type /help for help.");
                             break;
                         }
                     }
@@ -70,7 +70,7 @@ public class ChatServer {
                 out.println("NAMEACCEPTED");
                 writers.add(out);
                 for (PrintWriter writer : writers) {
-                    writer.println("MESSAGE " + name + " has joined");
+                    writer.println("MESSAGE " + name + " has joined. Type /help for help.");
                 }
 
                 // Accept messages from this client and broadcast them.
@@ -81,6 +81,7 @@ public class ChatServer {
                         return;
                     }
                     if(input.length() != 0) {
+
 	                    if (input.charAt(0) == '/') {
 	                    	for (PrintWriter writer : writers) {
 	                            writer.println("COMMAND " + input + " from " + name);
