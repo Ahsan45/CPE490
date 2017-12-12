@@ -109,7 +109,7 @@ public class ChatClient {
                 appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " Type /whisper [user] [message] to send a user a message."  + "\n", Color.BLUE);
                 appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " Type /poke [user] poke a user."  + "\n", Color.BLUE);
             }
-            else if (line.startsWith("COMMAND /disconnect")) {
+            else if (line.startsWith("COMMAND /disconnect from " + name)) {
             	socket.close();
             }
             else {
