@@ -70,7 +70,7 @@ public class ChatServer {
                 out.println("NAMEACCEPTED");
                 writers.add(out);
                 for (PrintWriter writer : writers) {
-                    writer.println("MESSAGE " + name + " has joined. Type /help for help.");
+                    writer.println("SERVER " + "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " " + name + " has joined. Type /help for help.");
                 }
 
                 // Accept messages from this client and broadcast them.
