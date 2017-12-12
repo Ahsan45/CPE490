@@ -110,13 +110,21 @@ public class ChatClient {
             	}
             	tPane.setEditable(false);
             }
-            else if (line.startsWith("COMMAND /poke " + name)) {
-            	tPane.setEditable(true);
-                int endOfString = line.lastIndexOf("from");
-                String lineMsg = line.substring(0, endOfString);
-                String sender = line.substring(endOfString);
-                appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "] " + sender.substring(5) + " poked you." + "\n", Color.RED);
-                tPane.setEditable(false);
+            else if (line.startsWith("COMMAND /poke")) {
+            	int endOfString = line.lastIndexOf("from");
+            	if(line.substring(endOfString+5).startsWith(name)) {
+            		tPane.setEditable(true);
+	            	String lineMsg = line.substring(0, endOfString);
+            		appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "] you poked " + getName(line.substring(14)) + "\n", Color.RED);
+            		tPane.setEditable(false);
+            	}
+            	if (line.startsWith("COMMAND /poke " + name)) {
+                	tPane.setEditable(true);
+                    String lineMsg = line.substring(0, endOfString);
+                    String sender = line.substring(endOfString);
+                    appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "] " + sender.substring(5) + " poked you." + "\n", Color.RED);
+                    tPane.setEditable(false);
+            	}
             }
             else if (line.startsWith("COMMAND /help from " + name)) { //lists commands
             	tPane.setEditable(true);
