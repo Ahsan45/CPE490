@@ -85,7 +85,7 @@ public class ChatServer {
 	                    if (input.charAt(0) == '/') {
 	                    	if (input.startsWith("/users")) {
 		                    	for (PrintWriter writer :writers) {
-		                    		writer.println(names);
+		                    		writer.println("SERVER " + "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " " + names);
 		                    	}
 	                    	}
 	                    	else {
