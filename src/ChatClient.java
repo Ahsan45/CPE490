@@ -127,7 +127,7 @@ public class ChatClient {
             }
             else if (line.startsWith("COMMAND /users from " + name)) {
             	tPane.setEditable(true);
-            	appendToPane(tPane, line, Color.BLUE);
+            	appendToPane(tPane, line.substring(20+name.length()), Color.BLUE);
             	tPane.setEditable(false);
             }
             else if (line.startsWith("COMMAND /disconnect")) {
