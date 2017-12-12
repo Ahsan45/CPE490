@@ -81,36 +81,45 @@ public class ChatClient {
             String line = in.readLine();
             if (line.startsWith("SUBMITNAME")) {
                 out.println(getName());
-            } else if (line.startsWith("NAMEACCEPTED")) {
+            } 
+            else if (line.startsWith("NAMEACCEPTED")) {
                 textField.setEditable(true);
-            } else if (line.startsWith("MESSAGE")) {
+            } 
+            else if (line.startsWith("MESSAGE")) {
             	appendToPane(tPane, line.substring(8) + "\n", Color.BLACK);
+            }
+            else if (line.startsWith("SERVER")) {
+            	appendToPane(tPane, line.substring(8) + "\n", Color.BLUE);
             }
             else if (line.startsWith("COMMAND /whisper")) {
             	int endOfString = line.lastIndexOf("from");
             	if(line.substring(endOfString+5).startsWith(name)) {
 	            	String lineMsg = line.substring(0, endOfString);
-            		appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + "you whisper: " + lineMsg.substring(18+name.length()) + "\n", Color.RED);
+            		appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "] you whisper: " + lineMsg.substring(18+name.length()) + "\n", Color.RED);
             	}
             	if(line.startsWith("COMMAND /whisper " + name)) {
 	            	String lineMsg = line.substring(0, endOfString);
 	            	String sender = line.substring(endOfString);
-	            	appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " " + sender.substring(5) + " whispers to you: " + lineMsg.substring(18+name.length()) + "\n", Color.RED);
+	            	appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "] " + sender.substring(5) + " whispers to you: " + lineMsg.substring(18+name.length()) + "\n", Color.RED);
             	}
             }
             else if (line.startsWith("COMMAND /poke " + name)) {
                 int endOfString = line.lastIndexOf("from");
                 String lineMsg = line.substring(0, endOfString);
                 String sender = line.substring(endOfString);
-                appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " " + sender.substring(5) + " poked you." + "\n", Color.RED);
+                appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "] " + sender.substring(5) + " poked you." + "\n", Color.RED);
             }
             else if (line.startsWith("COMMAND /help from " + name)) { //lists commands
-                appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + "---HELP MENU---"  + "\n", Color.BLUE);
+                appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " ---HELP MENU---"  + "\n", Color.BLUE);
                 appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " Type /whisper [user] [message] to send a user a message."  + "\n", Color.BLUE);
                 appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " Type /poke [user] poke a user."  + "\n", Color.BLUE);
             }
-            else if (line.startsWith("COMMAND /disconnect from " + name)) {
-            	socket.close();
+            else if (line.startsWith("COMMAND /disconnect")) {
+            	int endOfString = line.lastIndexOf("from");
+            	appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "] " + line.substring(endOfString+5) + " has disconnected" + "\n", Color.BLUE);
+            	if (line.startsWith("COMMAND /disconnect from " + name)) {
+                	socket.close();
+                }
             }
             else {
             	//break;
