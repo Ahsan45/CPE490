@@ -101,7 +101,7 @@ public class ChatClient {
             	int endOfString = line.lastIndexOf("from");
             	if(line.substring(endOfString+5).startsWith(name)) {
 	            	String lineMsg = line.substring(0, endOfString);
-            		appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "] you whisper: " + lineMsg.substring(18+name.length()) + "\n", Color.RED);
+            		appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "] you whisper: " + lineMsg.substring(18+getName(line.substring(18)).length()) + "\n", Color.RED);
             	}
             	if(line.startsWith("COMMAND /whisper " + name)) {
 	            	String lineMsg = line.substring(0, endOfString);
@@ -123,11 +123,13 @@ public class ChatClient {
                 appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " ---HELP MENU---"  + "\n", Color.BLUE);
                 appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " Type /whisper [user] [message] to send a user a message."  + "\n", Color.BLUE);
                 appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " Type /poke [user] poke a user."  + "\n", Color.BLUE);
+                appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " Type /users to see all connected users."  + "\n", Color.BLUE);
+                appendToPane(tPane, "[" + LocalTime.of(LocalTime.now().getHour(), LocalTime.now().getMinute()) + "]" + " Type /disconnect to leave."  + "\n", Color.BLUE);
                 tPane.setEditable(false);
             }
             else if (line.startsWith("COMMAND /users from " + name)) {
             	tPane.setEditable(true);
-            	appendToPane(tPane, line.substring(20+name.length()), Color.BLUE);
+            	appendToPane(tPane, line.substring(20+name.length()) + "\n", Color.BLUE);
             	tPane.setEditable(false);
             }
             else if (line.startsWith("COMMAND /disconnect")) {
@@ -156,6 +158,15 @@ public class ChatClient {
         tp.setCaretPosition(len);
         tp.setCharacterAttributes(aset, false);
         tp.replaceSelection(msg);
+    }
+    private String getName(String s) {
+    	int i = 0;
+    	String receiverName = "";
+    	while(s.charAt(i) != ' ') {
+    		receiverName=  receiverName + s.charAt(i);
+    		i++;
+    	}
+    	return receiverName;
     }
 
     //Runs the client as an application with a closeable frame.
